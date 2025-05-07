@@ -1,0 +1,34 @@
+<!-- templates/search_results.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-bottom: 1px solid #ccc; }
+        .score { color: #999; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Search Engine</h1>
+
+    <form method="get" action="{% url 'search' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Enter your query..." style="width: 300px;" />
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Results for "{{ query }}":</h2>
+
+    {% if results %}
+        {% for doc, score in results %}
+            <div class="result">
+                <strong>Doc ID: {{ doc.id }}</strong><br>
+                {{ doc.text|truncatechars:200 }}<br>
+                <span class="score">Score: {{ score|floatformat:3 }}</span>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</body>
+</html>

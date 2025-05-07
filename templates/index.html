@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+</head>
+<body>
+
+    <h1>Upload PDF</h1>
+
+    <!-- Form to upload a file -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Render form fields -->
+        {{ form.as_p }}
+        
+        <!-- Submit button -->
+        <button type="submit">Upload File</button>
+    </form>
+
+    {% if form.errors %}
+    <div style="color: red;">
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</body>
+</html>
