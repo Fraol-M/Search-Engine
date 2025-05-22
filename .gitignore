@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.env
+*.DS_Store
+
+# Django / Flask
+db.sqlite3
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenv
+env/
+venv/
+ENV/
+*.egg-info/
+
+# Uploaded files
+media/
+uploads/
+*.pdf
+*.jpg
+*.png
+
+# IDE
+.vscode/
+.idea/
+
+# System
+*.swp
+Thumbs.db

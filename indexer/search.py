@@ -71,7 +71,6 @@ def search(query, top_k=10):
     qvec = build_query_vector(query)
     if not qvec:
         return []
-    # find all documents that contain at least one query term
     doc_ids = set()
     for term in qvec:
         try:

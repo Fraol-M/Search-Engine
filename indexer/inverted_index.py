@@ -1,17 +1,13 @@
-# indexer/inverted_index.py
 from .preprocessor import Preprocessor
 from .models import Term, Posting
 from document.models import ExtractedText
+from .trie import trie
 
 def index_document(doc_id):
-    """
-    Indexes *exactly* the ExtractedText with primary key=doc_id,
-    creating or updating Posting rows without touching any other doc.
-    """
+    
     doc = ExtractedText.objects.get(pk=doc_id)
     tokens = Preprocessor(doc.text).run_all()
 
-    # Build term -> { frequency, positions } for *this* doc
     term_data = {}
     for pos, token in enumerate(tokens):
         if token not in term_data:
@@ -19,9 +15,7 @@ def index_document(doc_id):
         term_data[token]['frequency'] += 1
         term_data[token]['positions'].append(pos)
 
-    # Upsert Postings for this one doc
-    
-    print("here", term_data)
+    # Upsert postings and update Trie
     for token, data in term_data.items():
         term_obj, _ = Term.objects.get_or_create(term=token)
         Posting.objects.update_or_create(
@@ -32,3 +26,5 @@ def index_document(doc_id):
                 'positions': data['positions'],
             }
         )
+        
+        trie.insert_with_count(token, data['frequency'])
